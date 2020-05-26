@@ -25,9 +25,6 @@ public:
 
 	bool parse_key(WORD &key)
 	{
-
-
-
 		// ascii table and virtual key codes are a little different, we need to check this
 		if (key >= 97 && key <= 122)
 		{
@@ -58,7 +55,6 @@ public:
 
 	void key_down(WORD key, int delay = 1)
 	{
-		
 		bool shift = parse_key(key);
 
 		// We can check caps lock state with GetKeyState(VK_CAPITAL), in order to always type letters corectly. But that will mess with shift symbols like / ?
