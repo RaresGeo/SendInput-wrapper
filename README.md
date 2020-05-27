@@ -5,5 +5,4 @@ Currently a work in progress, I hope to make this wrapper class a versatile and 
 
 Things to work on: 
   Adding parsing for virtual key codes such as VK_OEM1, VK_OEM2, etc
-  Making a timer class using the chrono library
   Creating more flexibility and ease of access with configs
