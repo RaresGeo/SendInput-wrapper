@@ -51,17 +51,156 @@ public:
 
 		else  // key is not a letter, we'll check if we still have to use shift
 		{
-			if (key == '?')
+			switch (key)
 			{
+			case('!'):
+				key = '1';
+				return true;
+				break;
+			case('@'):
+				key = '2';
+				return true;
+				break;
+			case('#'):
+				key = '3';
+				return true;
+				break;
+			case('$'):
+				key = '4';
+				return true;
+				break;
+			case('%'):
+				key = '5';
+				return true;
+				break;
+			case('^'):
+				key = '6';
+				return true;
+				break;
+			case('&'):
+				key = '7';
+				return true;
+				break;
+			case('*'):
+				key = '8';
+				return true;
+				break;
+			case('('):
+				key = '9';
+				return true;
+				break;
+			case(')'):
+				key = '0';
+				return true;
+				break;
+			case('_l'): // VK_LEFT case conflicts with previous case events, we'll have to make our own macro for it
+				key = VK_LEFT; // I am rather unhappy with this compromise, please let me know if there's any other way of fixing this.
+				return true; // I'll be honest, I don't know why, but we have to hold shift here.
+				break;
+			case('_r'):
+				key = VK_RIGHT;
+				return true;
+				break;
+			case('_u'):
+				key = VK_UP;
+				return true;
+				break;
+			case('_d'):
+				key = VK_DOWN;
+				return true; // I'll be honest, I don't know why, but we have to hold shift here.
+				break;
+			case(':'):
+				key = VK_OEM_1;
+				return true;
+				break;
+			case(';'):
+				key = VK_OEM_1;
+				return false;
+				break;
+			case('?'):
 				key = VK_OEM_2;
 				return true;
-			}
-			else if (key == '/')
-			{
+				break;
+			case('/'):
 				key = VK_OEM_2;
 				return false;
+				break;
+			case('~'):
+				key = VK_OEM_3;
+				return true;
+				break;
+			case('`'):
+				key = VK_OEM_3;
+				return false;
+				break;
+			case('{'):
+				key = VK_OEM_4;
+				return true;
+				break;
+			case('['):
+				key = VK_OEM_4;
+				return false;
+				break;
+			case('|'):
+				key = VK_OEM_5;
+				return true;
+				break;
+			case('\\'):
+				key = VK_OEM_5;
+				return false;
+				break;
+			case('}'):
+				key = VK_OEM_6;
+				return true;
+				break;
+			case(']'):
+				key = VK_OEM_6;
+				return false;
+				break;
+			case('"'):
+				key = VK_OEM_7;
+				return true;
+				break;
+			case('\''):
+				key = VK_OEM_7;
+				return false;
+				break;
+			case('<'):
+				key = VK_OEM_COMMA;
+				return true;
+				break;
+			case(','):
+				key = VK_OEM_COMMA;
+				return false;
+				break;
+			case('>'):
+				key = VK_OEM_PERIOD;
+				return true;
+				break;
+			case('.'):
+				key = VK_OEM_PERIOD;
+				return false;
+				break;
+			case('_'):
+				key = VK_OEM_MINUS;
+				return true;
+				break;
+			case('-'):
+				key = VK_OEM_MINUS;
+				return false;
+				break;
+			case('+'):
+				key = VK_OEM_PLUS;
+				return true;
+				break;
+			case('='):
+				key = VK_OEM_PLUS;
+				return false;
+				break;
+			default:
+				return false;
+				break;
 			}
-			else return false;
 		}
 	}
 
@@ -164,9 +303,13 @@ public:
 		rmb_up(delay);
 	}
 
-	void macro(char* s, int typing_speed = 1)
+	void macro(char* s, int typing_speed = 1, bool _return = false)
 	{
 		for (int i = 0; i < strlen(s); i++)
 			key_tap(s[i], typing_speed);
+
+		if (_return)
+			key_tap(VK_RETURN);
+
 	}
 };
