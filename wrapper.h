@@ -1,11 +1,14 @@
 #pragma once
 #include <Windows.h>
+#include <chrono>
 
 class sendinput_wrapper
 {
 private:
 	INPUT mouse;
 	INPUT kb;
+
+	std::chrono::high_resolution_clock time;
 public:
 	sendinput_wrapper()
 	{
@@ -21,6 +24,15 @@ public:
 		mouse.mi.dwFlags = MOUSEEVENTF_ABSOLUTE;
 		mouse.mi.time = 0;
 		mouse.mi.dwExtraInfo = 0;
+	}
+
+	void pause(int delay = 1)
+	{
+		auto start = time.now();
+		while ((time.now() - start) < std::chrono::milliseconds(delay))
+		{
+
+		}
 	}
 
 	bool parse_key(WORD &key)
@@ -72,7 +84,7 @@ public:
 		if(shift)
 			key_up(VK_SHIFT, 0);
 
-		// Timer, std::chrono
+		pause(delay);
 
 	}
 
@@ -83,15 +95,12 @@ public:
 		kb.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
 		SendInput(1, &kb, sizeof(INPUT));
 
-		// Timer
+		pause(delay);
 	}
 
 	void key_tap(WORD key, int hold_time = 1, int delay = 1)
 	{
 		key_down(key, hold_time);
-
-		// Timer
-
 		key_up(key, delay);
 	}
 
@@ -115,24 +124,32 @@ public:
 	{
 		mouse.mi.dwFlags = (MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTDOWN);
 		SendInput(1, &mouse, sizeof(INPUT));
+
+		pause(delay);
 	}
 
 	void lmb_up(int delay = 1)
 	{
 		mouse.mi.dwFlags = (MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP);
 		SendInput(1, &mouse, sizeof(INPUT));
+
+		pause(delay);
 	}
 
 	void rmb_down(int delay = 1)
 	{
 		mouse.mi.dwFlags = (MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_RIGHTDOWN);
 		SendInput(1, &mouse, sizeof(INPUT));
+
+		pause(delay);
 	}
 
 	void rmb_up(int delay = 1)
 	{
 		mouse.mi.dwFlags = (MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_RIGHTUP);
 		SendInput(1, &mouse, sizeof(INPUT));
+
+		pause(delay);
 	}
 
 	void lmb_click(int hold_time = 1, int delay = 1)
@@ -147,9 +164,9 @@ public:
 		rmb_up(delay);
 	}
 
-	void macro(char* s)
+	void macro(char* s, int typing_speed = 1)
 	{
 		for (int i = 0; i < strlen(s); i++)
-			key_tap(s[i]);
+			key_tap(s[i], typing_speed);
 	}
 };
